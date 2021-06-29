@@ -1,6 +1,7 @@
-pytest
-requests
-uvicorn
+azure-storage-blob
 fastapi
+pytest
 python-jose[cryptography]
 python-multipart
+requests
+uvicorn

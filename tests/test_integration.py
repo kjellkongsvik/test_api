@@ -1,14 +1,15 @@
 import os
 from urllib.parse import parse_qs, urlparse
+from io import StringIO
 
 import pytest
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-API_ADDR = os.getenv("API_ADDR", "http://localhost:5000")
-AUTHORITY = os.getenv("AUTHORITY", "http://localhost:8089/common")
-CLIENT_ID = os.getenv("CLIENT_ID")
+API_ADDR = os.getenv("API_ADDR", "http://localhost:8000")
+AUTHORITY = os.getenv("AUTHORITY", "http://localhost:8080/default")
+CLIENT_ID = os.getenv("CLIENT_ID", "default")
 
 
 @pytest.fixture(scope="session")
@@ -69,3 +70,8 @@ def test_root_no_access(healthy):
 def test_root(healthy, auth):
     r = requests.get(f"{API_ADDR}/", headers=auth)
     assert r
+
+
+def test_upload(healthy, auth):
+    r_f = requests.post(f"{API_ADDR}/", files={"file": StringIO("")}, headers=auth)
+    assert r_f.status_code == 201

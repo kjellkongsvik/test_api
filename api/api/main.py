@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Security
 
 from . import routes
-from .auth import auth
+from .auth import get_auth
 
 app = FastAPI()
 
-app.include_router(routes.router, dependencies=[Security(auth())])
+app.include_router(routes.router, dependencies=[Security(get_auth())])
 
 
 @app.get("/health")
